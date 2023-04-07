@@ -1,0 +1,15 @@
+{
+  "generators": {
+    "my-own-react": {
+      "factory": "./src/generators/my-own-react/generator",
+      "schema": "./src/generators/my-own-react/schema.json",
+      "description": "my-own-react generator"
+    },
+    "preset": {
+      "factory": "./src/generators/preset/generator",
+      "schema": "./src/generators/preset/schema.json",
+      "description": "preset generator",
+      "x-use-standalone-layout": true
+    }
+  }
+}

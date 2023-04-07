@@ -1,0 +1,56 @@
+{
+  "name": "create-my-own-react-package",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "create-my-own-react-package/bin",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/./create-my-own-react-package",
+        "main": "create-my-own-react-package/bin/index.ts",
+        "tsConfig": "create-my-own-react-package/tsconfig.lib.json",
+        "assets": ["create-my-own-react-package/*.md"],
+        "buildableProjectDepsInPackageJsonType": "dependencies"
+      }
+    },
+    "execute": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rm -rf test && node ../dist/create-my-own-react-package/bin/index.js test",
+        "cwd": "tmp"
+      },
+      "dependsOn": ["build"]
+    },
+    "publish": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node tools/scripts/publish.mjs create-my-own-react-package {args.ver} {args.tag}"
+      },
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["create-my-own-react-package/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "create-my-own-react-package/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
