@@ -1,11 +1,15 @@
+import { execSync } from 'child_process';
 import { ServeExecutorSchema } from './schema';
+import { ExecutorContext } from '@nrwl/devkit';
 
 export default async function runExecutor(
   options: ServeExecutorSchema,
+  context: ExecutorContext
 ) {
-  console.log('Executor ran for Serve', options);
+  const projectRoot =
+    context.projectsConfigurations.projects[context.projectName].root;
+  execSync('npx react-scripts start', { stdio: 'inherit', cwd: projectRoot });
   return {
-    success: true
+    success: true,
   };
 }
-

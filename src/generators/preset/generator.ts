@@ -27,7 +27,10 @@ function normalizeOptions(
     ? `${names(options.directory).fileName}/${name}`
     : name;
   const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
-  const projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
+  const projectRoot =
+    getWorkspaceLayout(tree).appsDir === '.'
+      ? '.'
+      : `${getWorkspaceLayout(tree).appsDir}/${projectDirectory}`;
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
@@ -60,11 +63,14 @@ export default async function (tree: Tree, options: PresetGeneratorSchema) {
   const normalizedOptions = normalizeOptions(tree, options);
   addProjectConfiguration(tree, normalizedOptions.projectName, {
     root: normalizedOptions.projectRoot,
-    projectType: 'library',
+    projectType: 'application',
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
         executor: 'my-own-react:build',
+      },
+      serve: {
+        executor: 'my-own-react:serve',
       },
     },
     tags: normalizedOptions.parsedTags,
@@ -79,6 +85,7 @@ export default async function (tree: Tree, options: PresetGeneratorSchema) {
       'react-dom': 'latest',
       '@types/react': 'latest',
       '@types/react-dom': 'latest',
+      'react-scripts': 'latest',
     },
     {}
   );

@@ -3,18 +3,19 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {},
-  "private": true,
+  "private": false,
   "dependencies": {
-    "@nrwl/devkit": "16.0.0",
     "@swc/helpers": "~0.4.11",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@nrwl/devkit": "^16.0.0",
     "@nrwl/eslint-plugin-nx": "16.0.0",
     "@nrwl/jest": "16.0.0",
     "@nrwl/js": "16.0.0",
     "@nrwl/linter": "16.0.0",
     "@nrwl/nx-plugin": "16.0.0",
+    "@nrwl/react": "^16.0.0",
     "@nrwl/workspace": "16.0.0",
     "@swc-node/register": "^1.4.2",
     "@swc/cli": "~0.1.55",
