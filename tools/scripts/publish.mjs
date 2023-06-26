@@ -7,10 +7,12 @@
  * You might need to authenticate with NPM before running this script.
  */
 
-import { readCachedProjectGraph } from "@nrwl/devkit";
-import { execSync } from "child_process";
-import { readFileSync, writeFileSync } from "fs";
-import chalk from "chalk";
+import { execSync } from 'child_process';
+import { readFileSync, writeFileSync } from 'fs';
+import chalk from 'chalk';
+
+import devkit from '@nx/devkit';
+const { readCachedProjectGraph } = devkit;
 
 function invariant(condition, message) {
   if (!condition) {
@@ -21,7 +23,7 @@ function invariant(condition, message) {
 
 // Executing publish script: node path/to/publish.mjs {name} --version {version} --tag {tag}
 // Default "tag" to "next" so we won't publish the "latest" tag by accident.
-const [, , name, version, tag = "next"] = process.argv;
+const [, , name, version, tag = 'next'] = process.argv;
 
 // A simple SemVer validation to validate the version
 const validVersion = /^\d+\.\d+\.\d+(-\w+\.\d+)?/;

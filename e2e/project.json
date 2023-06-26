@@ -5,14 +5,15 @@
   "sourceRoot": "e2e/tests",
   "targets": {
     "e2e": {
-      "executor": "@nrwl/nx-plugin:e2e",
+      "executor": "@nx/jest:jest",
       "options": {
-        "target": "my-own-react:build",
-        "jestConfig": "e2e/jest.config.ts"
-      }
+        "jestConfig": "e2e/jest.config.ts",
+        "runInBand": true
+      },
+      "dependsOn": ["my-own-react:build"]
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["e2e/**/*.ts"]

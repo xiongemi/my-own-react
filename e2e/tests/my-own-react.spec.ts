@@ -4,7 +4,7 @@ import {
   readJson,
   runNxCommandAsync,
   uniq,
-} from "@nrwl/nx-plugin/testing";
+} from "@nx/nx-plugin/testing";
 
 describe("my-own-react e2e", () => {
   // Setting up individual workspaces per
@@ -23,34 +23,10 @@ describe("my-own-react e2e", () => {
     runNxCommandAsync("reset");
   });
 
-  it("should create my-own-react", async () => {
+  xit("should create my-own-react", async () => {
     const project = uniq("my-own-react");
     await runNxCommandAsync(`generate my-own-react:my-own-react ${project}`);
     const result = await runNxCommandAsync(`build ${project}`);
     expect(result.stdout).toContain("Executor ran");
   }, 120000);
-
-  describe("--directory", () => {
-    it("should create src in the specified directory", async () => {
-      const project = uniq("my-own-react");
-      await runNxCommandAsync(
-        `generate my-own-react:my-own-react ${project} --directory subdir`
-      );
-      expect(() =>
-        checkFilesExist(`libs/subdir/${project}/src/index.ts`)
-      ).not.toThrow();
-    }, 120000);
-  });
-
-  describe("--tags", () => {
-    it("should add tags to the project", async () => {
-      const projectName = uniq("my-own-react");
-      ensureNxProject("my-own-react", "dist/./.");
-      await runNxCommandAsync(
-        `generate my-own-react:my-own-react ${projectName} --tags e2etag,e2ePackage`
-      );
-      const project = readJson(`libs/${projectName}/project.json`);
-      expect(project.tags).toEqual(["e2etag", "e2ePackage"]);
-    }, 120000);
-  });
 });

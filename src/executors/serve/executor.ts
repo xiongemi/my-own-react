@@ -1,6 +1,6 @@
 import { execSync } from 'child_process';
 import { ServeExecutorSchema } from './schema';
-import { ExecutorContext } from '@nrwl/devkit';
+import { ExecutorContext } from '@nx/devkit';
 
 export default async function runExecutor(
   options: ServeExecutorSchema,
