@@ -6,6 +6,6 @@
     "create-my-own-react-package": "./bin/index.js"
   },
   "dependencies": {
-    "create-nx-workspace": "16.0.0"
+    "create-nx-workspace": "16.4.0"
   }
 }

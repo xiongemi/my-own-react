@@ -91,12 +91,10 @@ async function normalizeArgsMiddleware(argv: yargs.Arguments<Options>) {
 }
 
 async function main(args: Options) {
-  await createWorkspace(
-    'my-own-react@file:/Users/emilyxiong/Code/tmp/my-own-react/dist',
-    args
-  );
+  const presetVersion = require('../package.json').version;
+  const { directory } = await createWorkspace(`my-own-react@${presetVersion}`, args);
 
-  console.log(`Successfully created the workspace: ${args.name}.`);
+  console.log(`Successfully created the workspace: ${directory}.`);
 }
 
 commandsObject.argv;

@@ -8,26 +8,15 @@
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/./create-my-own-react-package",
+        "outputPath": "dist/create-my-own-react-package",
         "main": "create-my-own-react-package/bin/index.ts",
         "tsConfig": "create-my-own-react-package/tsconfig.lib.json",
         "assets": ["create-my-own-react-package/*.md"],
-        "buildableProjectDepsInPackageJsonType": "dependencies"
+        "updateBuildableProjectDepsInPackageJson": false
       }
     },
-    "execute": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "rm -rf test && node ../dist/create-my-own-react-package/bin/index.js test",
-        "cwd": "tmp"
-      },
-      "dependsOn": ["build"]
-    },
     "publish": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "node tools/scripts/publish.mjs create-my-own-react-package {args.ver} {args.tag}"
-      },
+      "command": "node tools/scripts/publish.mjs create-my-own-react-package {args.ver} {args.tag}",
       "dependsOn": ["build"]
     },
     "lint": {
@@ -52,5 +41,6 @@
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "implicitDependencies": ["my-own-react"]
 }
