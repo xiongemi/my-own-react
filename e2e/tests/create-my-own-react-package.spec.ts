@@ -2,7 +2,7 @@ import { execSync } from 'child_process';
 import { join, dirname } from 'path';
 import { mkdirSync, rmSync } from 'fs';
 
-describe('create-my-own-react-package', () => {
+describe('create-my-own-react-app', () => {
   let projectDirectory: string;
 
   afterAll(() => {
@@ -42,7 +42,7 @@ function createTestProject(extraArgs: string = '') {
   });
 
   execSync(
-    `npx --yes create-my-own-react-package@e2e ${projectName} ${extraArgs}`,
+    `npx --yes create-my-own-react-app@e2e ${projectName} ${extraArgs}`,
     {
       cwd: dirname(projectDirectory),
       stdio: 'inherit',

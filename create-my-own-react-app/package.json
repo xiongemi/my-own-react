@@ -1,9 +1,9 @@
 {
-  "name": "create-my-own-react-package",
+  "name": "create-my-own-react-app",
   "version": "0.0.1",
   "type": "commonjs",
   "bin": {
-    "create-my-own-react-package": "./bin/index.js"
+    "create-my-own-react-app": "./bin/index.js"
   },
   "dependencies": {
     "create-nx-workspace": "16.4.0"

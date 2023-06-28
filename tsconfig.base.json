@@ -18,8 +18,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "create-my-own-react-package": [
-        "create-my-own-react-package/src/index.ts"
+      "create-my-own-react-app": [
+        "create-my-own-react-app/src/index.ts"
       ],
       "my-own-react": [
         "src/index.ts"
