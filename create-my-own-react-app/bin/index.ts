@@ -1,100 +1,51 @@
 #!/usr/bin/env node
 
-import { createWorkspace, CreateWorkspaceOptions } from 'create-nx-workspace';
-import * as enquirer from 'enquirer';
-import * as yargs from 'yargs';
+import { createWorkspace } from 'create-nx-workspace';
+import { prompt } from 'enquirer';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface Options extends CreateWorkspaceOptions {}
-
-export const commandsObject: yargs.Argv<Options> = yargs
-  .wrap(yargs.terminalWidth())
-  .parserConfiguration({
-    'strip-dashed': true,
-    'dot-notation': true,
-  })
-  .command(
-    // this is the default and only command
-    '$0 [name] [options]',
-    'Create a new my-own-react workspace',
-    (yargs) =>
-      yargs
-        .options('preset', {
-          describe: 'Preset to use',
-          type: 'string',
-        })
-        .option('name', {
-          describe: 'What is the name of your workspace?',
-          type: 'string',
-        })
-        .option('packageManager', {
-          alias: 'pm',
-          describe: 'Package manager to use',
-          choices: ['npm', 'yarn', 'pnpm'],
-          defaultDescription: 'npm',
-          type: 'string',
-        })
-        .option('nxCloud', {
-          describe: 'Enable distributed caching to make your CI faster?',
-          type: 'boolean',
-        }),
-    async (argv: yargs.ArgumentsCamelCase<Options>) => {
-      await main(argv).catch((error) => {
-        throw error;
-      });
-    },
-    [normalizeArgsMiddleware]
-  ) as yargs.Argv<Options>;
-
-async function normalizeArgsMiddleware(argv: yargs.Arguments<Options>) {
-  if (!argv.name) {
-    const results = await enquirer.prompt<{ name: string }>({
+async function main() {
+  console.log(process.argv);
+  let name = process.argv[2]; // TODO: use libraries like yargs or enquirer to set your workspace name
+  if (!name) {
+    const response = await prompt<{ name: string }>({
       type: 'input',
       name: 'name',
-      message: 'What is the name of your workspace?',
+      message: 'What is the name of the workspace?',
     });
-    argv.name = results.name;
+    name = response.name;
   }
-  if (!argv.packageManager) {
-    const results = await enquirer.prompt<{ packageManager: string }>({
-      name: 'packageManager',
-      message: 'Which package manager to use',
-      initial: 'npm' as any,
-      type: 'autocomplete',
-      choices: [
-        { name: 'npm', message: 'NPM' },
-        { name: 'yarn', message: 'Yarn' },
-        { name: 'pnpm', message: 'PNPM' },
-      ],
-    });
-    argv.packageManager = results.packageManager as any;
+  let mode = process.argv[3];
+  if (!mode) {
+    mode = (
+      await prompt<{ mode: 'light' | 'dark' }>({
+        name: 'mode',
+        message: 'Which mode to use',
+        initial: 'dark' as any,
+        type: 'autocomplete',
+        choices: [
+          { name: 'light', message: 'light' },
+          { name: 'dark', message: 'dark' },
+        ],
+      })
+    ).mode;
   }
-  if (argv.nxCloud === undefined) {
-    const results = await enquirer.prompt<{ nxCloud: 'Yes' | 'No' }>({
-      name: 'NxCloud',
-      message: 'Enable distributed caching to make your CI faster?',
-      type: 'autocomplete',
-      choices: [
-        {
-          name: 'Yes',
-          hint: 'I want faster builds',
-        },
 
-        {
-          name: 'No',
-        },
-      ],
-      initial: 'Yes' as any,
-    });
-    argv.nxCloud = results.nxCloud === 'Yes';
-  }
-}
+  console.log(`Creating the workspace: ${name}`);
 
-async function main(args: Options) {
+  // This assumes "my-own-react" and "create-my-own-react-app" are at the same version
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const presetVersion = require('../package.json').version;
-  const { directory } = await createWorkspace(`my-own-react@${presetVersion}`, args);
+
+  // TODO: update below to customize the workspace
+  const { directory } = await createWorkspace(`my-own-react@${presetVersion}`, {
+    name,
+    nxCloud: false,
+    packageManager: 'npm',
+    mode,
+  });
 
   console.log(`Successfully created the workspace: ${directory}.`);
+  process.exit(0);
 }
 
-commandsObject.argv;
+main();

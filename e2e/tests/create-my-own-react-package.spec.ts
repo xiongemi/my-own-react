@@ -14,7 +14,17 @@ describe('create-my-own-react-app', () => {
   });
 
   it('should be installed', () => {
-    projectDirectory = createTestProject();
+    projectDirectory = createTestProject('light');
+
+    // npm ls will fail if the package is not installed properly
+    execSync('npm ls my-own-react', {
+      cwd: projectDirectory,
+      stdio: 'inherit',
+    });
+  });
+
+  it('should use light mode', () => {
+    projectDirectory = createTestProject('light');
 
     // npm ls will fail if the package is not installed properly
     execSync('npm ls my-own-react', {
